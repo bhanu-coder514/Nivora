@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About NIVORA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-home"></i> NIVORA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/rooms.html">Find Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+                    <li class="nav-item" id="authLinks"><a class="nav-link" href="/login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="mb-4">About NIVORA</h1>
+                <p class="lead">An Intelligent Platform for Accommodation Discovery and Shared Living</p>
+
+                <p>NIVORA is a comprehensive platform designed to make accommodation discovery easier, more transparent, and more reliable for students, working professionals, and property owners.</p>
+
+                <h3 class="mt-5 mb-3">Our Mission</h3>
+                <p>To provide a transparent and efficient platform that connects accommodation seekers with property owners, offering complete visibility into costs and helping people make informed decisions.</p>
+
+                <h3 class="mt-5 mb-3">Key Features</h3>
+                <ul>
+                    <li><strong>Smart Expense Calculator</strong> - Know your exact monthly costs upfront</li>
+                    <li><strong>Property Matching</strong> - Get recommendations based on your requirements</li>
+                    <li><strong>Direct Communication</strong> - Connect directly with property owners</li>
+                    <li><strong>Transparent Listings</strong> - All costs disclosed clearly</li>
+                </ul>
+
+                <h3 class="mt-5 mb-3">For Students & Professionals</h3>
+                <p>Search and filter properties based on your preferences, calculate total living costs, save favorites, and connect directly with property owners.</p>
+
+                <h3 class="mt-5 mb-3">For Property Owners</h3>
+                <p>List your properties for free, manage inquiries, update availability, and reach thousands of potential tenants.</p>
+
+                <div class="mt-5">
+                    <a href="/rooms.html" class="btn btn-primary me-3">Find Accommodation</a>
+                    <a href="/add-property.html" class="btn btn-outline-primary">List Your Property</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>updateAuthUI();</script>
+</body>
+</html>

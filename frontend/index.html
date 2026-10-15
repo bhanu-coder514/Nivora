@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIVORA - An Intelligent Platform for Accommodation Discovery and Shared Living</title>
+    <meta name="description" content="Discover rooms, PGs, and shared living spaces that fit your lifestyle and budget.">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-home"></i> NIVORA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/rooms.html">Find Rooms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add-property.html">List Your Property</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item" id="authLinks">
+                        <a class="nav-link" href="/login.html">Login</a>
+                    </li>
+                    <li class="nav-item" id="getUserStarted">
+                        <a class="btn btn-primary btn-sm" href="/student-register.html">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" style="background: linear-gradient(135deg, #0f2942 0%, #0d9488 100%); color: white; padding: 5rem 0; margin-bottom: 4rem;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <p class="text-uppercase mb-2" style="opacity: 0.9; font-weight: 600; letter-spacing: 1px; font-size: 0.9rem;">
+                        An Intelligent Platform for Accommodation Discovery and Shared Living
+                    </p>
+                    <h1 class="display-3 fw-bold mb-4" style="color: white;">Your Next Space Starts Here.</h1>
+                    <p class="lead mb-4" style="opacity: 0.95; font-size: 1.15rem;">
+                        Discover rooms, PGs, and shared living spaces that fit your lifestyle and budget.
+                        Compare properties, understand your total expenses, and find the right place to call home.
+                    </p>
+                    <div class="d-flex gap-3 mb-4 flex-wrap">
+                        <a href="/rooms.html" class="btn btn-light btn-lg px-4">
+                            <i class="fas fa-search me-2"></i>Explore Rooms
+                        </a>
+                        <a href="/add-property.html" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-plus me-2"></i>List Your Property
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem;">
+                        <i class="fas fa-home" style="font-size: 12rem; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="card shadow-lg mt-4" style="border-radius: 12px; border: none;">
+                <div class="card-body p-4">
+                    <form id="heroSearchForm" action="/rooms.html" method="GET">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label" style="color: #374151; font-weight: 500;">
+                                    <i class="fas fa-map-marker-alt me-2"></i>City or Locality
+                                </label>
+                                <input type="text" class="form-control" name="search" placeholder="e.g., Delhi, Bangalore">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label" style="color: #374151; font-weight: 500;">
+                                    <i class="fas fa-building me-2"></i>Accommodation Type
+                                </label>
+                                <select class="form-select" name="propertyType">
+                                    <option value="">All Types</option>
+                                    <option value="pg">PG</option>
+                                    <option value="hostel">Hostel</option>
+                                    <option value="flat">Flat</option>
+                                    <option value="independent-room">Independent Room</option>
+                                    <option value="studio">Studio</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label" style="color: #374151; font-weight: 500;">
+                                    <i class="fas fa-rupee-sign me-2"></i>Max Budget (Monthly)
+                                </label>
+                                <input type="number" class="form-control" name="maxRent" placeholder="e.g., 10000">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-2"></i>Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="container mb-5">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Featured Accommodations</h2>
+            <p class="text-muted">Discover our hand-picked properties with great value and amenities</p>
+        </div>
+
+        <div id="featuredProperties" class="row">
+            <!-- Properties will be loaded here -->
+            <div class="text-center py-5">
+                <div class="spinner mx-auto"></div>
+                <p class="text-muted mt-3">Loading featured properties...</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/rooms.html" class="btn btn-outline-primary btn-lg">
+                View All Properties <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Explore by Type -->
+    <section class="py-5" style="background-color: #f9fafb;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Explore by Accommodation Type</h2>
+                <p class="text-muted">Find the perfect type of accommodation that suits your needs</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-3 col-sm-6">
+                    <a href="/rooms.html?roomType=single" class="text-decoration-none">
+                        <div class="card h-100 text-center hover-shadow" style="transition: all 0.3s;">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <i class="fas fa-bed" style="font-size: 3rem; color: #0d9488;"></i>
+                                </div>
+                                <h5 class="card-title">Single Rooms</h5>
+                                <p class="card-text text-muted">Private rooms for individuals</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="/rooms.html?roomType=double-sharing" class="text-decoration-none">
+                        <div class="card h-100 text-center hover-shadow" style="transition: all 0.3s;">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <i class="fas fa-users" style="font-size: 3rem; color: #0d9488;"></i>
+                                </div>
+                                <h5 class="card-title">Double Sharing</h5>
+                                <p class="card-text text-muted">Share with one other person</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="/rooms.html?propertyType=pg" class="text-decoration-none">
+                        <div class="card h-100 text-center hover-shadow" style="transition: all 0.3s;">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <i class="fas fa-building" style="font-size: 3rem; color: #0d9488;"></i>
+                                </div>
+                                <h5 class="card-title">PG & Hostels</h5>
+                                <p class="card-text text-muted">Managed accommodations with amenities</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="/rooms.html?propertyType=flat" class="text-decoration-none">
+                        <div class="card h-100 text-center hover-shadow" style="transition: all 0.3s;">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <i class="fas fa-home" style="font-size: 3rem; color: #0d9488;"></i>
+                                </div>
+                                <h5 class="card-title">Flats & Apartments</h5>
+                                <p class="card-text text-muted">1BHK, 2BHK, and studio apartments</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="container my-5 py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">How NIVORA Works</h2>
+            <p class="text-muted">Simple, transparent, and efficient accommodation discovery</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="mb-4" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #0f2942); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 2rem; font-weight: 700;">1</span>
+                    </div>
+                    <h5 class="fw-bold mb-3">Search Properties</h5>
+                    <p class="text-muted">Browse through verified listings in your preferred location</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="mb-4" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #0f2942); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 2rem; font-weight: 700;">2</span>
+                    </div>
+                    <h5 class="fw-bold mb-3">Calculate Costs</h5>
+                    <p class="text-muted">See transparent breakdown of rent and all monthly expenses</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="mb-4" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #0f2942); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 2rem; font-weight: 700;">3</span>
+                    </div>
+                    <h5 class="fw-bold mb-3">Compare Options</h5>
+                    <p class="text-muted">Save favorites and compare amenities, costs, and locations</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="mb-4" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #0f2942); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 2rem; font-weight: 700;">4</span>
+                    </div>
+                    <h5 class="fw-bold mb-3">Connect & Move In</h5>
+                    <p class="text-muted">Contact property owners and schedule visits</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose NIVORA -->
+    <section class="py-5" style="background: linear-gradient(135deg, #0f2942 0%, #0d9488 100%); color: white;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: white;">Why Choose NIVORA?</h2>
+                <p style="opacity: 0.9;">The intelligent way to discover your next accommodation</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <i class="fas fa-calculator mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="fw-bold mb-3">Smart Expense Calculator</h5>
+                        <p style="opacity: 0.9;">Know exactly what you'll pay each month. No hidden costs, complete transparency.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <i class="fas fa-shield-alt mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="fw-bold mb-3">Verified Listings</h5>
+                        <p style="opacity: 0.9;">All properties are verified. Connect directly with property owners.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <i class="fas fa-search-location mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="fw-bold mb-3">Smart Matching</h5>
+                        <p style="opacity: 0.9;">Tell us what you need, and we'll match you with perfect properties.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA for Owners -->
+    <section class="container my-5 py-5">
+        <div class="card shadow-lg" style="border-radius: 16px; border: none; overflow: hidden;">
+            <div class="row g-0">
+                <div class="col-md-6 p-5" style="background: linear-gradient(135deg, #0f2942, #0d9488); color: white;">
+                    <h3 class="fw-bold mb-4">Have a Property to Rent?</h3>
+                    <p class="mb-4" style="opacity: 0.95;">List your property on NIVORA and connect with genuine tenants. No brokerage, complete control.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Reach thousands of students and professionals</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Manage inquiries and bookings easily</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Free listing with premium features</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Complete transparency in expenses</li>
+                    </ul>
+                    <a href="/owner-register.html" class="btn btn-light btn-lg">
+                        List Your Property Now <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center p-5" style="background-color: #f9fafb;">
+                    <i class="fas fa-key" style="font-size: 10rem; color: #0d9488; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">
+                        <i class="fas fa-home me-2"></i>NIVORA
+                    </h5>
+                    <p style="color: #9ca3af;">
+                        An Intelligent Platform for Accommodation Discovery and Shared Living.
+                        Making accommodation search easier, transparent, and reliable.
+                    </p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Quick Links</h5>
+                    <a href="/">Home</a>
+                    <a href="/rooms.html">Find Rooms</a>
+                    <a href="/add-property.html">List Property</a>
+                    <a href="/about.html">About Us</a>
+                    <a href="/contact.html">Contact</a>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>For Students</h5>
+                    <a href="/rooms.html">Browse Rooms</a>
+                    <a href="/requirements.html">Submit Requirements</a>
+                    <a href="/wishlist.html">My Wishlist</a>
+                    <a href="/student-register.html">Sign Up</a>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>For Owners</h5>
+                    <a href="/add-property.html">List Property</a>
+                    <a href="/owner-dashboard.html">Dashboard</a>
+                    <a href="/owner-register.html">Register</a>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Support</h5>
+                    <a href="/contact.html">Help Center</a>
+                    <a href="/about.html">Privacy Policy</a>
+                    <a href="/about.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 NIVORA. All rights reserved. Built with care for students and professionals.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        // Load featured properties
+        async function loadFeaturedProperties() {
+            try {
+                const response = await fetch('/api/properties?limit=6&sort=newest');
+                const data = await response.json();
+
+                const container = document.getElementById('featuredProperties');
+
+                if (!data.success || !data.properties || data.properties.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h3 class="empty-state-title">No Properties Listed Yet</h3>
+                                <p class="empty-state-text">Be the first to list a property on NIVORA!</p>
+                                <a href="/add-property.html" class="btn btn-primary">List Your Property</a>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.properties.map(property => {
+                    const coverImage = property.images && property.images.length > 0
+                        ? property.images.find(img => img.isCover)?.url || property.images[0].url
+                        : 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800';
+
+                    const monthlyRent = formatCurrency(property.monthlyRent);
+                    const monthlyCost = property.estimatedMonthlyCost ? formatCurrency(property.estimatedMonthlyCost) : null;
+
+                    return `
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card property-card h-100">
+                                <div style="position: relative;">
+                                    <img src="${coverImage}" class="card-img-top" alt="${property.title}"
+                                         onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800'">
+                                    <span class="property-badge ${property.availabilityStatus === 'available' ? '' : 'unavailable'}">
+                                        ${property.availabilityStatus}
+                                    </span>
+                                </div>
+                                <div class="card-body property-info">
+                                    <h5 class="card-title">${escapeHtml(property.title)}</h5>
+                                    <p class="property-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        ${escapeHtml(property.address.locality)}, ${escapeHtml(property.address.city)}
+                                    </p>
+                                    <div class="property-price">
+                                        ₹${monthlyRent}<span class="property-price-label">/month</span>
+                                    </div>
+                                    ${monthlyCost ? `<p class="text-muted mb-3" style="font-size: 0.875rem;">Est. Total: ₹${monthlyCost}/month</p>` : ''}
+                                    <div class="property-features">
+                                        <span class="feature-badge">
+                                            <i class="fas fa-door-open"></i> ${formatRoomType(property.roomType)}
+                                        </span>
+                                        <span class="feature-badge">
+                                            <i class="fas fa-couch"></i> ${formatFurnishing(property.furnishingStatus)}
+                                        </span>
+                                    </div>
+                                    <a href="/room-details.html?id=${property._id}" class="btn btn-primary w-100 mt-3">
+                                        View Details <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading properties:', error);
+                document.getElementById('featuredProperties').innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-error">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Failed to load properties. Please try again later.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function formatRoomType(type) {
+            const map = {
+                'single': 'Single Room',
+                'double-sharing': 'Double Sharing',
+                'triple-sharing': 'Triple Sharing',
+                'studio': 'Studio',
+                '1bhk': '1 BHK',
+                '2bhk': '2 BHK',
+                '3bhk': '3 BHK'
+            };
+            return map[type] || type;
+        }
+
+        function formatFurnishing(status) {
+            const map = {
+                'furnished': 'Furnished',
+                'semi-furnished': 'Semi-Furnished',
+                'unfurnished': 'Unfurnished'
+            };
+            return map[status] || status;
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-IN').format(amount);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFeaturedProperties();
+            updateAuthUI();
+        });
+    </script>
+</body>
+</html>

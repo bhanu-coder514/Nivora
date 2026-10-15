@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details - NIVORA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-home"></i> NIVORA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/rooms.html">Find Rooms</a></li>
+                    <li class="nav-item" id="authLinks"><a class="nav-link" href="/login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container my-4" id="propertyDetails">
+        <div class="text-center py-5">
+            <div class="spinner mx-auto"></div>
+            <p class="text-muted mt-3">Loading property details...</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateAuthUI();
+            currentUser = await getCurrentUser();
+
+            const params = getQueryParams();
+            const propertyId = params.id;
+
+            if (!propertyId) {
+                document.getElementById('propertyDetails').innerHTML = `
+                    <div class="alert alert-error">Property ID not provided</div>
+                    <a href="/rooms.html" class="btn btn-primary">Back to Search</a>
+                `;
+                return;
+            }
+
+            loadProperty(propertyId);
+        });
+
+        async function loadProperty(id) {
+            try {
+                const data = await api.get(`/properties/${id}`);
+
+                if (!data.success || !data.property) {
+                    throw new Error('Property not found');
+                }
+
+                const property = data.property;
+                renderProperty(property);
+            } catch (error) {
+                document.getElementById('propertyDetails').innerHTML = `
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        ${error.message || 'Failed to load property'}
+                    </div>
+                    <a href="/rooms.html" class="btn btn-primary">Back to Search</a>
+                `;
+            }
+        }
+
+        function renderProperty(property) {
+            const coverImage = property.images && property.images.length > 0
+                ? property.images.find(img => img.isCover)?.url || property.images[0].url
+                : 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800';
+
+            const monthlyExpensesTotal = (property.monthlyExpenses || []).reduce((sum, exp) =>
+                sum + (exp.amount || 0), 0);
+            const oneTimeExpensesTotal = (property.oneTimeExpenses || []).reduce((sum, exp) =>
+                sum + (exp.amount || 0), 0);
+
+            document.getElementById('propertyDetails').innerHTML = `
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <img src="${coverImage}" class="card-img-top" alt="${escapeHtml(property.title)}"
+                                 style="height: 400px; object-fit: cover;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge badge-primary">${formatPropertyType(property.propertyType)}</span>
+                                        <span class="badge badge-secondary">${formatRoomType(property.roomType)}</span>
+                                        <span class="badge ${property.availabilityStatus === 'available' ? 'badge-success' : 'badge-secondary'}">
+                                            ${property.availabilityStatus}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <h2 class="mb-3">${escapeHtml(property.title)}</h2>
+
+                                <p class="text-muted mb-4">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    ${escapeHtml(property.address.street)}, ${escapeHtml(property.address.locality)},
+                                    ${escapeHtml(property.address.city)}, ${escapeHtml(property.address.state)} - ${property.address.pinCode}
+                                </p>
+
+                                <h4 class="mb-3">Description</h4>
+                                <p style="white-space: pre-wrap;">${escapeHtml(property.description)}</p>
+
+                                <h4 class="mt-4 mb-3">Amenities</h4>
+                                <div class="row">
+                                    ${(property.amenities || []).map(amenity => `
+                                        <div class="col-md-6 mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            ${formatAmenity(amenity)}
+                                        </div>
+                                    `).join('')}
+                                </div>
+
+                                ${property.nearbyCollege ? `
+                                    <div class="mt-4">
+                                        <strong><i class="fas fa-graduation-cap me-2"></i>Nearby College:</strong>
+                                        ${escapeHtml(property.nearbyCollege)}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card mb-4" style="position: sticky; top: 20px;">
+                            <div class="card-body">
+                                <h3 class="mb-3" style="color: var(--primary-navy);">
+                                    ${formatCurrency(property.monthlyRent)}
+                                    <small class="text-muted" style="font-size: 1rem;">/month</small>
+                                </h3>
+                                <p class="text-muted mb-3">${property.rentBasis === 'per-person' ? 'Per Person' : 'Per Room'}</p>
+
+                                <div class="mb-4">
+                                    <h5 class="mb-3">Monthly Expenses</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td>Monthly Rent</td>
+                                            <td class="text-end">${formatCurrency(property.monthlyRent)}</td>
+                                        </tr>
+                                        ${(property.monthlyExpenses || []).map(exp => `
+                                            <tr>
+                                                <td>${escapeHtml(exp.label)} ${exp.note ? `<small class="text-muted d-block">${escapeHtml(exp.note)}</small>` : ''}</td>
+                                                <td class="text-end">${exp.amount !== null ? formatCurrency(exp.amount) : 'Variable'}</td>
+                                            </tr>
+                                        `).join('')}
+                                        <tr class="fw-bold">
+                                            <td>Estimated Monthly Total</td>
+                                            <td class="text-end">${formatCurrency(property.monthlyRent + monthlyExpensesTotal)}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5 class="mb-3">One-Time Costs</h5>
+                                    <table class="table table-sm">
+                                        ${property.securityDeposit ? `
+                                            <tr>
+                                                <td>Security Deposit</td>
+                                                <td class="text-end">${formatCurrency(property.securityDeposit)}</td>
+                                            </tr>
+                                        ` : ''}
+                                        ${(property.oneTimeExpenses || []).map(exp => `
+                                            <tr>
+                                                <td>${escapeHtml(exp.label)} ${exp.note ? `<small class="text-muted d-block">${escapeHtml(exp.note)}</small>` : ''}</td>
+                                                <td class="text-end">${exp.amount !== null ? formatCurrency(exp.amount) : 'N/A'}</td>
+                                            </tr>
+                                        `).join('')}
+                                        <tr class="fw-bold">
+                                            <td>Initial Move-in Cost</td>
+                                            <td class="text-end">${formatCurrency(property.monthlyRent + (property.securityDeposit || 0) + oneTimeExpensesTotal)}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                ${currentUser && currentUser.role === 'student' ? `
+                                    <button class="btn btn-primary w-100 mb-2" onclick="window.location.href='/login.html?redirect=/room-details.html?id=${property._id}'">
+                                        <i class="fas fa-envelope me-2"></i>Contact Owner
+                                    </button>
+                                ` : !currentUser ? `
+                                    <button class="btn btn-primary w-100 mb-2" onclick="window.location.href='/login.html?redirect=/room-details.html?id=${property._id}'">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Login to Contact
+                                    </button>
+                                ` : ''}
+
+                                <a href="/rooms.html" class="btn btn-outline-secondary w-100">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Search
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
